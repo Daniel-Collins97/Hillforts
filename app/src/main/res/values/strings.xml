@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">Hillforts</string>
+
+    <!--User Strings-->
+    <string name="button_addHillfort">Add Hillfort</string>
+    <string name="hint_hillfortTitle">Hillfort Title</string>
+
+    <string name="hint_hillfortLocationLat">Hillfort Latitude Location</string>
+    <string name="hint_hillfortLocationLong">Hillfort Longitude Location</string>
 </resources>
