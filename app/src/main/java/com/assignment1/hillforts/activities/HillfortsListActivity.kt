@@ -2,6 +2,7 @@ package com.assignment1.hillforts.activities
 
 import android.content.Intent
 import android.os.Bundle
+import android.provider.Settings
 import android.view.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -11,6 +12,7 @@ import com.assignment1.hillforts.models.HillfortModel
 import com.assignment1.hillforts.models.UserModel
 import kotlinx.android.synthetic.main.activity_hillforts_list.*
 import org.jetbrains.anko.AnkoLogger
+import org.jetbrains.anko.toast
 
 class HillfortsListActivity : AppCompatActivity(), HillfortListener, AnkoLogger {
 
@@ -42,6 +44,11 @@ class HillfortsListActivity : AppCompatActivity(), HillfortListener, AnkoLogger 
         i.putExtra("user", user)
         when (item.itemId) {
             R.id.item_add -> startActivityForResult(i, 0)
+            R.id.item_settings -> {
+                val intent = Intent(this@HillfortsListActivity, SettingsActivity::class.java)
+                intent.putExtra("user", user)
+                startActivity(intent)
+            }
         }
         return super.onOptionsItemSelected(item)
     }

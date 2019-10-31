@@ -10,6 +10,7 @@
     <string name="hint_hillfortAdditional_notes">Additional Notes</string>
 
     <string name="menu_addHillfort">Add</string>
+    <string name="menu_settings">Settings</string>
     <string name="menu_cancelHillfort">Cancel</string>
 
     <string name="toast_hillfort_added">Hillfort Added!</string>
@@ -59,4 +60,16 @@
     <string name="dialog_user_successful">User Successfully Created! Please Sign-In to continue</string>
     <string name="dialog_ok">Ok</string>
     <string name="user_incorrect_details">Incorrect Details</string>
+
+    <string name="settings_account_details">Account Details</string>
+    <string name="settings_email_title">User Email</string>
+    <string name="settings_email_hint">Email</string>
+    <string name="settings_password_title">User Password</string>
+    <string name="settings_password_hint">Password</string>
+    <string name="settings_statistics_title">Statistics</string>
+    <string name="settings_statistics_total_title">Total Hillforts</string>
+    <string name="settings_statistics_total_hint">0</string>
+    <string name="settings_statistics_visited_title">Visited</string>
+    <string name="settings_statistics_visited_hint">0</string>
+    <string name="settings_logout_btn">Log Out</string>
 </resources>
