@@ -1,0 +1,44 @@
+[
+  {
+    "additionalNotes": "",
+    "description": "Needed1",
+    "id": 2577313464461185125,
+    "image1": "",
+    "image2": "",
+    "image3": "",
+    "image4": "",
+    "lat": 52.24706808224059,
+    "lng": -7.139585092663766,
+    "title": "needed1",
+    "visited": false,
+    "zoom": 15.0
+  },
+  {
+    "additionalNotes": "dt stomach gonna rumble",
+    "description": "Needed2",
+    "id": -2641334968428797964,
+    "image1": "",
+    "image2": "",
+    "image3": "",
+    "image4": "",
+    "lat": 52.25134827848531,
+    "lng": -7.144231013953686,
+    "title": "needed2",
+    "visited": false,
+    "zoom": 15.0
+  },
+  {
+    "additionalNotes": "dt stomach gonna rumble",
+    "description": "Needed3",
+    "id": -2641334968428797964,
+    "image1": "",
+    "image2": "",
+    "image3": "",
+    "image4": "",
+    "lat": 52.25134827848531,
+    "lng": -7.144231013953686,
+    "title": "needed3",
+    "visited": false,
+    "zoom": 15.0
+  }
+]

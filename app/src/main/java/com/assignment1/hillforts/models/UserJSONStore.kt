@@ -44,7 +44,15 @@ class UserJSONStore(private val context: Context) : UserStore, AnkoLogger {
 
 
     override fun updateUser(user: UserModel) {
-        // todo
+        val foundUser = users.find { p -> p.id == user.id }
+        if (foundUser != null) {
+            foundUser.firstName = user.firstName
+            foundUser.lastName = user.lastName
+            foundUser.password = user.password
+            foundUser.email = user.email
+            logAllUsers()
+        }
+        serializeUsers()
     }
 
     override fun deleteUser(user: UserModel) {

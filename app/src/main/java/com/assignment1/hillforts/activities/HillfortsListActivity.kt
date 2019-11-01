@@ -2,17 +2,14 @@ package com.assignment1.hillforts.activities
 
 import android.content.Intent
 import android.os.Bundle
-import android.provider.Settings
 import android.view.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.assignment1.hillforts.R
 import com.assignment1.hillforts.main.MainApp
-import com.assignment1.hillforts.models.HillfortModel
-import com.assignment1.hillforts.models.UserModel
+import com.assignment1.hillforts.models.*
 import kotlinx.android.synthetic.main.activity_hillforts_list.*
 import org.jetbrains.anko.AnkoLogger
-import org.jetbrains.anko.toast
 
 class HillfortsListActivity : AppCompatActivity(), HillfortListener, AnkoLogger {
 
@@ -27,7 +24,6 @@ class HillfortsListActivity : AppCompatActivity(), HillfortListener, AnkoLogger 
         if (intent.hasExtra("user")) {
             user = intent.extras?.getParcelable("user")!!
         }
-
 
         val layoutManager = LinearLayoutManager(this)
         recyclerView.layoutManager = layoutManager
@@ -51,6 +47,13 @@ class HillfortsListActivity : AppCompatActivity(), HillfortListener, AnkoLogger 
             }
         }
         return super.onOptionsItemSelected(item)
+    }
+
+    override fun onBackPressed()
+    {
+        super.onBackPressed()
+        val intent = Intent(this@HillfortsListActivity, LoginActivity::class.java)
+        startActivity(intent)
     }
 
     override fun onHillfortClick(hillfort: HillfortModel) {

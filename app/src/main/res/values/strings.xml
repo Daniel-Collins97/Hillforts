@@ -16,6 +16,7 @@
     <string name="toast_hillfort_added">Hillfort Added!</string>
     <string name="toast_empty_fields">Please fill in ALL fields</string>
     <string name="toast_hillfort_not_added">Hillfort NOT added</string>
+    <string name="toast_hillfort_not_changed">Update Cancelled</string>
 
     <string name="save_hillfort">Save Hillfort</string>
 
@@ -58,7 +59,7 @@
 
     <string name="dialog_user_created">User Created!</string>
     <string name="dialog_user_successful">User Successfully Created! Please Sign-In to continue</string>
-    <string name="dialog_ok">Ok</string>
+    <string name="dialog_ok">OK</string>
     <string name="user_incorrect_details">Incorrect Details</string>
 
     <string name="settings_account_details">Account Details</string>
@@ -72,4 +73,15 @@
     <string name="settings_statistics_visited_title">Visited</string>
     <string name="settings_statistics_visited_hint">0</string>
     <string name="settings_logout_btn">Log Out</string>
+
+    <string name="dialog_edit_email_submit">Change</string>
+    <string name="dialog_edit_email_cancel">Cancel</string>
+    <string name="dialog_edit_email_hint">New Email</string>
+    <string name="dialog_edit_email_title">Change Email</string>
+
+    <string name="dialog_edit_password_submit">Change</string>
+    <string name="dialog_edit_password_cancel">Cancel</string>
+    <string name="dialog_edit_password_hint">New Password</string>
+    <string name="dialog_edit_password_confirm_hint">Confirm New Password</string>
+    <string name="dialog_edit_password_title">Change Password</string>
 </resources>

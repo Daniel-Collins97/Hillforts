@@ -86,9 +86,13 @@ class HillfortActivity : AppCompatActivity(), AnkoLogger {
 
         clearAll.setOnClickListener {
             hillfortImage1.setImageResource(R.drawable.logo)
+            hillfort.image1 = ""
             hillfortImage2.setImageResource(R.drawable.logo)
+            hillfort.image2 = ""
             hillfortImage3.setImageResource(R.drawable.logo)
+            hillfort.image3 = ""
             hillfortImage4.setImageResource(R.drawable.logo)
+            hillfort.image4 = ""
         }
 
         chooseImage.setOnClickListener {
@@ -114,8 +118,13 @@ class HillfortActivity : AppCompatActivity(), AnkoLogger {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.item_cancel -> {
-                toast(R.string.toast_hillfort_not_added)
-                finish()
+                if (intent.hasExtra("hillfort_edit")) {
+                    toast(R.string.toast_hillfort_not_changed)
+                    finish()
+                } else {
+                    toast(R.string.toast_hillfort_not_added)
+                    finish()
+                }
             }
             R.id.item_delete -> {
                 showAlertDialogButtonClicked()
