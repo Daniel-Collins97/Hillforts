@@ -1,4 +1,4 @@
-package com.assignment1.hillforts.activities
+package views.splashScreen
 
 import android.app.Activity
 import android.content.Intent
@@ -6,6 +6,7 @@ import android.os.Bundle
 import com.assignment1.hillforts.R
 import org.jetbrains.anko.AnkoLogger
 import org.jetbrains.anko.info
+import views.login.LoginView
 import java.lang.Exception
 
 
@@ -19,7 +20,7 @@ class SplashScreenActivity : Activity(), AnkoLogger {
             override fun run() {
                 try {
                     sleep(3000)
-                    val intent = Intent(this@SplashScreenActivity, LoginActivity::class.java)
+                    val intent = Intent(this@SplashScreenActivity, LoginView::class.java)
                     startActivity(intent)
                     info("WORKING")
                 } catch (e: Exception) {

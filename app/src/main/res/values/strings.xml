@@ -11,6 +11,7 @@
 
     <string name="menu_addHillfort">Add</string>
     <string name="menu_settings">Settings</string>
+    <string name="menu_hillfortMaps">Settings</string>
     <string name="menu_cancelHillfort">Cancel</string>
 
     <string name="toast_hillfort_added">Hillfort Added!</string>
@@ -84,4 +85,9 @@
     <string name="dialog_edit_password_hint">New Password</string>
     <string name="dialog_edit_password_confirm_hint">Confirm New Password</string>
     <string name="dialog_edit_password_title">Change Password</string>
+    <string name="title_activity_hillfort_maps">HillfortMaps</string>
+
+    <string name="hillfort_image_placeholder">Image Placeholder</string>
+    <string name="hillfort_title_placeholder">No Hillforts</string>
+    <string name="hillfort_description_placeholder">There are no Hillforts currently saved</string>
 </resources>
