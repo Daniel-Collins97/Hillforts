@@ -3,11 +3,15 @@ package views.hillfortList
 import com.assignment1.hillforts.models.HillfortModel
 import com.assignment1.hillforts.models.Location
 import com.assignment1.hillforts.models.UserModel
+import org.jetbrains.anko.AnkoLogger
+import org.jetbrains.anko.doAsync
+import org.jetbrains.anko.info
+import org.jetbrains.anko.uiThread
 import views.base.BasePresenter
 import views.base.BaseView
 import views.base.VIEW
 
-class HillfortsListPresenter(view: BaseView): BasePresenter(view) {
+class HillfortsListPresenter(view: BaseView): BasePresenter(view), AnkoLogger {
 
     private var user = UserModel()
     private var location = Location()
@@ -17,8 +21,17 @@ class HillfortsListPresenter(view: BaseView): BasePresenter(view) {
         if (view.intent.hasExtra("user")) user = view.intent.extras?.getParcelable("user")!!
     }
 
-    fun getHillforts(): List<HillfortModel> {
-        return app.hillforts.findAll().filter { it.userId == user.id }
+    fun getHillforts() {
+        doAsync {
+            val hillforts = app.hillforts.findAllHillforts().filter { it.userId == user.id }
+            uiThread {
+                info("@@@ LOGGED IN USER = ${user.id}")
+                hillforts.forEach {
+                    info("@@@ USERID = ${it.userId}")
+                }
+                view?.showHillforts(hillforts)
+            }
+        }
     }
 
     fun doAddHillfort() {
@@ -34,6 +47,6 @@ class HillfortsListPresenter(view: BaseView): BasePresenter(view) {
     }
 
     fun doShowHillfortMap() {
-        view?.navigateTo(VIEW.MAPS, 0, "", null, "", null)
+        view?.navigateTo(VIEW.MAPS, 0, "user", user, "", null)
     }
 }

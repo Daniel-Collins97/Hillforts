@@ -1,4 +1,4 @@
-package com.assignment1.hillforts.models
+package com.assignment1.hillforts.models.json
 
 import android.content.Context
 import com.google.gson.Gson
@@ -6,6 +6,8 @@ import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
 import org.jetbrains.anko.AnkoLogger
 import com.assignment1.hillforts.helpers.*
+import com.assignment1.hillforts.models.UserModel
+import com.assignment1.hillforts.models.UserStore
 import org.jetbrains.anko.info
 import java.lang.reflect.Type
 import java.util.*
@@ -58,6 +60,10 @@ class UserJSONStore(private val context: Context) : UserStore, AnkoLogger {
     override fun deleteUser(user: UserModel) {
         users.remove(user)
         serializeUsers()
+    }
+
+    override fun findUserById(id: Long): List<UserModel> {
+        return users.filter { it.id == id }
     }
 
     private fun serializeUsers() {

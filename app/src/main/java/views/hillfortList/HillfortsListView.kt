@@ -16,7 +16,7 @@ import views.base.BaseView
 class HillfortsListView : BaseView(),  HillfortListener{
 
     private var user = UserModel()
-    lateinit var presenter: HillfortsListPresenter
+    private lateinit var presenter: HillfortsListPresenter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -25,7 +25,7 @@ class HillfortsListView : BaseView(),  HillfortListener{
 
         val layoutManager = LinearLayoutManager(this)
         recyclerView.layoutManager = layoutManager
-        loadHillforts()
+        presenter.getHillforts()
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -56,13 +56,8 @@ class HillfortsListView : BaseView(),  HillfortListener{
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        loadHillforts()
+        presenter.getHillforts()
         super.onActivityResult(requestCode, resultCode, data)
-    }
-
-    private fun loadHillforts() {
-        val allHillforts = presenter.getHillforts()
-        showHillforts(allHillforts)
     }
 
     override fun showHillforts (hillforts: List<HillfortModel>) {

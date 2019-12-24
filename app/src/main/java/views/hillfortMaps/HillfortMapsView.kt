@@ -3,25 +3,24 @@ package views.hillfortMaps
 import android.os.Bundle
 import com.assignment1.hillforts.R
 import com.assignment1.hillforts.helpers.readImageFromPath
-import com.assignment1.hillforts.main.MainApp
 import com.assignment1.hillforts.models.HillfortModel
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.model.Marker
 import kotlinx.android.synthetic.main.content_hillfort_maps.*
 
 import org.jetbrains.anko.AnkoLogger
+import org.jetbrains.anko.info
 import views.base.BaseView
 
 class HillfortMapsView : BaseView(), AnkoLogger, GoogleMap.OnMarkerClickListener{
 
-    lateinit var app: MainApp
-    lateinit var map: GoogleMap
-    lateinit var presenter: HillfortMapsPresenter
+    private lateinit var map: GoogleMap
+    private lateinit var presenter: HillfortMapsPresenter
+    private var currentHillfort = HillfortModel()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_hillfort_maps)
-        app = application as MainApp
         hillfortMapView.onCreate(savedInstanceState)
         presenter = initPresenter(HillfortMapsPresenter(this)) as HillfortMapsPresenter
 
@@ -29,10 +28,7 @@ class HillfortMapsView : BaseView(), AnkoLogger, GoogleMap.OnMarkerClickListener
             map = it
             map.uiSettings.isZoomControlsEnabled = true
             map.setOnMarkerClickListener(this)
-            val currentHillfort = presenter.initMap(map)
-            currentTitle.text = currentHillfort.title
-            currentDescription!!.text = currentHillfort.description
-            currentImage!!.setImageBitmap(readImageFromPath(this, currentHillfort.image1))
+            presenter.initMap(map)
         }
     }
 

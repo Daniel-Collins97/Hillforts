@@ -6,6 +6,8 @@ import com.assignment1.hillforts.R
 import com.assignment1.hillforts.models.UserModel
 import kotlinx.android.synthetic.main.activity_signup.*
 import org.jetbrains.anko.AnkoLogger
+import org.jetbrains.anko.doAsync
+import org.jetbrains.anko.uiThread
 import views.base.BasePresenter
 import views.base.BaseView
 
@@ -22,9 +24,13 @@ class SignupPresenter(view: BaseView): BasePresenter(view), AnkoLogger {
             user.password = view?.userPassword!!.text.toString()
             if (user.firstName.isNotEmpty() && user.lastName.isNotEmpty() && user.email.isNotEmpty() && user.password.isNotEmpty()) {
                 if (isEmailValid(user.email)) {
-                    app.users.createUser(user.copy())
-                    view?.setResult(RESULT_OK)
-                    view?.finish()
+                    doAsync {
+                        app.users.createUser(user.copy())
+                        uiThread {
+                            view?.setResult(RESULT_OK)
+                            view?.finish()
+                        }
+                    }
                 } else {
                     Toast.makeText(view, R.string.invalid_email, Toast.LENGTH_LONG).show()
                 }

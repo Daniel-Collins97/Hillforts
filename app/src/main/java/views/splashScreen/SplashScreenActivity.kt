@@ -4,13 +4,11 @@ import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import com.assignment1.hillforts.R
-import org.jetbrains.anko.AnkoLogger
-import org.jetbrains.anko.info
 import views.login.LoginView
 import java.lang.Exception
 
 
-class SplashScreenActivity : Activity(), AnkoLogger {
+class SplashScreenActivity : Activity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -22,9 +20,7 @@ class SplashScreenActivity : Activity(), AnkoLogger {
                     sleep(3000)
                     val intent = Intent(this@SplashScreenActivity, LoginView::class.java)
                     startActivity(intent)
-                    info("WORKING")
                 } catch (e: Exception) {
-                    info("NOT WORKING")
                     e.printStackTrace()
                 }
             }

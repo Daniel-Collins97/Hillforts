@@ -3,7 +3,6 @@ package views.login
 import android.content.Intent
 import android.os.Bundle
 import com.assignment1.hillforts.R
-import com.assignment1.hillforts.main.MainApp
 import kotlinx.android.synthetic.main.activity_login.*
 import org.jetbrains.anko.AnkoLogger
 import views.base.BaseView

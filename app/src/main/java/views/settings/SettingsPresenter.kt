@@ -10,6 +10,9 @@ import com.assignment1.hillforts.models.HillfortModel
 import com.assignment1.hillforts.models.UserModel
 import kotlinx.android.synthetic.main.activity_settings.*
 import org.jetbrains.anko.AnkoLogger
+import org.jetbrains.anko.doAsync
+import org.jetbrains.anko.info
+import org.jetbrains.anko.uiThread
 import views.base.BasePresenter
 import views.base.BaseView
 import views.base.VIEW
@@ -26,23 +29,24 @@ class SettingsPresenter(view: BaseView): BasePresenter(view), AnkoLogger {
         if (view.intent.hasExtra("user")) {
             user = view.intent.extras?.getParcelable("user")!!
         }
-        allHillforts = loadHillforts()
-        visitedHillforts = findVisitedHillforts()
-
-        view.settingsEmail.text = user.email
-        view.settingsPassword.text = user.password
-        view.settingsStatisticsTotalHillforts.text = allHillforts!!.size.toString()
-        view.settingsStatisticsVisited.text = visitedHillforts!!.size.toString()
-
+        doAsync{
+            loadHillforts()
+            uiThread {
+                view.settingsEmail.text = user.email
+                view.settingsPassword.text = user.password
+                view.settingsStatisticsTotalHillforts.text = allHillforts!!.size.toString()
+                view.settingsStatisticsVisited.text = visitedHillforts!!.size.toString()
+            }
+        }
     }
 
-    private fun loadHillforts(): List<HillfortModel> {
-        return app.hillforts.findAll().filter { it.userId == user.id }
+    private fun loadHillforts() {
+        allHillforts = app.hillforts.findAllHillforts().filter { it.userId == user.id }
+        findVisitedHillforts()
     }
 
-    private fun findVisitedHillforts() :List<HillfortModel> {
-        val allHillforts = app.hillforts.findAll().filter { it.userId == user.id }
-        return allHillforts.filter { it.visited }
+    private fun findVisitedHillforts() {
+        visitedHillforts = allHillforts!!.filter { it.visited }
     }
 
     fun doLogOut() {
@@ -75,9 +79,13 @@ class SettingsPresenter(view: BaseView): BasePresenter(view), AnkoLogger {
                 updateUser.lastName = user.lastName
                 updateUser.password = user.password
                 updateUser.id = user.id
-                app.users.updateUser(updateUser.copy())
-                builder.dismiss()
-                view?.settingsEmail!!.text = newEmail.text.toString()
+                doAsync {
+                    app.users.updateUser(updateUser.copy())
+                    uiThread {
+                        builder.dismiss()
+                        view?.settingsEmail!!.text = newEmail.text.toString()
+                    }
+                }
             } else {
                 Toast.makeText(view, R.string.invalid_email, Toast.LENGTH_LONG).show()
             }
@@ -114,9 +122,13 @@ class SettingsPresenter(view: BaseView): BasePresenter(view), AnkoLogger {
                 updateUser.lastName = user.lastName
                 updateUser.password = newPassword.text.toString()
                 updateUser.id = user.id
-                app.users.updateUser(updateUser.copy())
-                builder.dismiss()
-                view?.settingsPassword!!.text = newPassword.text.toString()
+                doAsync {
+                    app.users.updateUser(updateUser.copy())
+                    uiThread {
+                        builder.dismiss()
+                        view?.settingsPassword!!.text = newPassword.text.toString()
+                    }
+                }
             } else {
                 Toast.makeText(view, R.string.passwords_do_not_match, Toast.LENGTH_LONG).show()
             }

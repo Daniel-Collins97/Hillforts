@@ -1,5 +1,7 @@
-package com.assignment1.hillforts.models
+package com.assignment1.hillforts.models.mem
 
+import com.assignment1.hillforts.models.UserModel
+import com.assignment1.hillforts.models.UserStore
 import org.jetbrains.anko.AnkoLogger
 import org.jetbrains.anko.info
 
@@ -12,7 +14,7 @@ internal fun getUserId(): Long {
 class UserMemStore : UserStore, AnkoLogger {
 
 
-    val users = ArrayList<UserModel>()
+    private val users = ArrayList<UserModel>()
 
     override fun findAllUsers(): List<UserModel> {
         return users
@@ -41,5 +43,9 @@ class UserMemStore : UserStore, AnkoLogger {
 
     override fun logAllUsers() {
         users.forEach { info("$it") }
+    }
+
+    override fun findUserById(id: Long): List<UserModel> {
+        return users.filter { it.id == id }
     }
 }

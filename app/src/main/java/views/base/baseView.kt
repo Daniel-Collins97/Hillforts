@@ -15,14 +15,11 @@ import views.login.LoginView
 import views.settings.SettingsView
 import views.signup.SignupView
 
-val imageRequest = 1
-val locationRequest = 2
-
 enum class VIEW {
     LOCATION, HILLFORT, MAPS, LIST, SETTINGS, LOGIN, SIGNUP
 }
 
-open abstract class BaseView : AppCompatActivity(), AnkoLogger {
+abstract class BaseView : AppCompatActivity(), AnkoLogger {
 
     private var basePresenter: BasePresenter? = null
 
@@ -70,6 +67,4 @@ open abstract class BaseView : AppCompatActivity(), AnkoLogger {
 
     open fun showHillfort(hillfort: HillfortModel) {}
     open fun showHillforts(hillforts: List<HillfortModel>) {}
-    open fun showProgress() {}
-    open fun hideProgress() {}
 }

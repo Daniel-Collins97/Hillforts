@@ -9,7 +9,9 @@ import views.signup.SignupView
 import com.assignment1.hillforts.models.UserModel
 import kotlinx.android.synthetic.main.activity_login.*
 import org.jetbrains.anko.AnkoLogger
+import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.intentFor
+import org.jetbrains.anko.uiThread
 import views.base.BasePresenter
 import views.base.BaseView
 import views.base.VIEW
@@ -21,33 +23,37 @@ class LoginPresenter(view: BaseView): BasePresenter(view), AnkoLogger {
     private var viewPassword = false
 
     fun doLogin() {
-        val allUsers = app.users.findAllUsers()
-        val userEmails = ArrayList<String>()
-        user.email = view?.username!!.text.toString()
-        user.password = view?.password!!.text.toString()
-        if (user.email.isNotEmpty()) {
-            for (x in allUsers) {
-                userEmails.add(x.email)
-                if (x.password == user.password && x.email == user.email) {
-                    user.lastName = x.lastName
-                    user.firstName = x.firstName
-                    user.id = x.id
-                    correctSet = true
+        doAsync {
+            val allUsers = app.users.findAllUsers()
+            uiThread {
+                val userEmails = ArrayList<String>()
+                user.email = view?.username!!.text.toString()
+                user.password = view?.password!!.text.toString()
+                if (user.email.isNotEmpty()) {
+                    for (x in allUsers) {
+                        userEmails.add(x.email)
+                        if (x.password == user.password && x.email == user.email) {
+                            user.lastName = x.lastName
+                            user.firstName = x.firstName
+                            user.id = x.id
+                            correctSet = true
+                        }
+                    }
+                    when {
+                        correctSet -> {
+                            view?.navigateTo(VIEW.LIST, 0, "user", user, "", null)
+                        }
+                        user.email in userEmails -> Toast.makeText(
+                            view!!,
+                            R.string.user_incorrect_details,
+                            Toast.LENGTH_LONG
+                        ).show()
+                        else -> noUserDialog()
+                    }
+                } else {
+                    Toast.makeText(view!!, R.string.toast_empty_fields, Toast.LENGTH_LONG).show()
                 }
             }
-            when {
-                correctSet -> {
-                    view?.navigateTo(VIEW.LIST, 0, "user", user, "", null)
-                }
-                user.email in userEmails -> Toast.makeText(
-                    view!!,
-                    R.string.user_incorrect_details,
-                    Toast.LENGTH_LONG
-                ).show()
-                else -> noUserDialog()
-            }
-        } else {
-            Toast.makeText(view!!, R.string.toast_empty_fields, Toast.LENGTH_LONG).show()
         }
     }
 

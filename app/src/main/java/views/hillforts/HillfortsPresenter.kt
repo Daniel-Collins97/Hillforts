@@ -1,8 +1,8 @@
 package views.hillforts
 
 import android.annotation.SuppressLint
-import android.app.Activity.RESULT_OK
 import android.content.Intent
+import org.jetbrains.anko.uiThread
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import com.assignment1.hillforts.R
@@ -19,7 +19,7 @@ import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import org.jetbrains.anko.AnkoLogger
-import org.jetbrains.anko.info
+import org.jetbrains.anko.doAsync
 import views.base.BasePresenter
 import views.base.BaseView
 import views.base.VIEW
@@ -33,7 +33,7 @@ class HillfortsPresenter(view: BaseView) : BasePresenter(view), AnkoLogger{
     private var user = UserModel()
     private var map: GoogleMap? = null
     private var defaultLocation = Location(52.2461, -7.1387, 15f)
-    var locationService: FusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(view)
+    private var locationService: FusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(view)
 
     init {
         if (view.intent.hasExtra("hillfort_edit")) {
@@ -75,11 +75,9 @@ class HillfortsPresenter(view: BaseView) : BasePresenter(view), AnkoLogger{
         map?.clear()
         map?.uiSettings?.isZoomControlsEnabled = true
         val options = MarkerOptions().title(hillfort.title).position(LatLng(hillfort.lat, hillfort.lng))
-        info("Map: ${hillfort.lat}, ${hillfort.lng}")
         map?.addMarker(options)
         map?.moveCamera(CameraUpdateFactory.newLatLngZoom(LatLng(hillfort.lat, hillfort.lng), hillfort.zoom))
         view?.showHillfort(hillfort)
-        Toast.makeText(view, "UPDATED", Toast.LENGTH_LONG).show()
     }
 
     fun doAddOrSave(hillfortTitle: String, hillfortDescription: String, visited: Boolean, hillfortAdditionalNotes: String) {
@@ -89,13 +87,19 @@ class HillfortsPresenter(view: BaseView) : BasePresenter(view), AnkoLogger{
         hillfort.additionalNotes = hillfortAdditionalNotes
         hillfort.userId = user.id
         if (hillfort.title.isNotEmpty()) {
-            if (edit) {
-                app.hillforts.update(hillfort.copy())
-            } else {
-                app.hillforts.create(hillfort.copy())
+            if (!edit) {
                 Toast.makeText(view, R.string.toast_hillfort_added, Toast.LENGTH_LONG).show()
             }
-            view?.finish()
+            doAsync {
+                if (edit) {
+                    app.hillforts.updateHillfort(hillfort.copy())
+                } else {
+                    app.hillforts.createHillfort(hillfort.copy())
+                }
+                uiThread {
+                    view?.finish()
+                }
+            }
         }
         else {
             Toast.makeText(view, R.string.toast_empty_fields, Toast.LENGTH_LONG).show()
@@ -122,8 +126,12 @@ class HillfortsPresenter(view: BaseView) : BasePresenter(view), AnkoLogger{
         builder.setMessage(R.string.dialog_delete_confirmation)
         builder.setPositiveButton(R.string.dialog_confirm) { _, _ ->
             Toast.makeText(view, R.string.dialog_deleted, Toast.LENGTH_LONG).show()
-            app.hillforts.delete(hillfort)
-            view?.finish()
+            doAsync {
+                app.hillforts.deleteHillfort(hillfort)
+                uiThread {
+                    view?.finish()
+                }
+            }
         }
         builder.setNegativeButton(R.string.dialog_cancel) { _, _->
             Toast.makeText(view, "Cancelled", Toast.LENGTH_LONG).show()
@@ -169,7 +177,6 @@ class HillfortsPresenter(view: BaseView) : BasePresenter(view), AnkoLogger{
                 hillfort.lat = location.lat
                 hillfort.lng = location.lng
                 hillfort.zoom = location.zoom
-                info("Map@@@@: ${hillfort.lat}, ${hillfort.lng}")
                 locationUpdate(hillfort.lat, hillfort.lng)
             }
         }
