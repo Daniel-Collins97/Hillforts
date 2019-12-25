@@ -7,7 +7,7 @@ import com.assignment1.hillforts.models.HillfortStore
 
 class HillfortStoreRoom(val context: Context) : HillfortStore {
 
-    var hillfortDao: HillfortDao
+    private var hillfortDao: HillfortDao
 
     init {
         val database = Room.databaseBuilder(context, Database::class.java, "hillfort.db")
@@ -37,4 +37,6 @@ class HillfortStoreRoom(val context: Context) : HillfortStore {
     override fun deleteHillfort(hillfort: HillfortModel) {
         hillfortDao.deleteHillfort(hillfort)
     }
+
+    override fun clear() {}
 }

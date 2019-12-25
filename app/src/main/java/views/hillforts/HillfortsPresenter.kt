@@ -11,13 +11,13 @@ import com.assignment1.hillforts.helpers.isPermissionGranted
 import com.assignment1.hillforts.models.Location
 import com.assignment1.hillforts.helpers.showImagePicker
 import com.assignment1.hillforts.models.HillfortModel
-import com.assignment1.hillforts.models.UserModel
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
+import com.google.firebase.auth.FirebaseAuth
 import org.jetbrains.anko.AnkoLogger
 import org.jetbrains.anko.doAsync
 import views.base.BasePresenter
@@ -30,7 +30,7 @@ class HillfortsPresenter(view: BaseView) : BasePresenter(view), AnkoLogger{
     private var edit = false
     private val imageRequest = 1
     private val locationRequest = 2
-    private var user = UserModel()
+    val user = FirebaseAuth.getInstance().currentUser
     private var map: GoogleMap? = null
     private var defaultLocation = Location(52.2461, -7.1387, 15f)
     private var locationService: FusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(view)
@@ -45,7 +45,6 @@ class HillfortsPresenter(view: BaseView) : BasePresenter(view), AnkoLogger{
                 doSetCurrentLocation()
             }
         }
-        if (view.intent.hasExtra("user")) user = view.intent.extras?.getParcelable("user")!!
     }
 
     fun doConfigMap(m: GoogleMap) {
@@ -85,7 +84,7 @@ class HillfortsPresenter(view: BaseView) : BasePresenter(view), AnkoLogger{
         hillfort.description = hillfortDescription
         hillfort.visited = visited
         hillfort.additionalNotes = hillfortAdditionalNotes
-        hillfort.userId = user.id
+        hillfort.userId = user?.uid.toString()
         if (hillfort.title.isNotEmpty()) {
             if (!edit) {
                 Toast.makeText(view, R.string.toast_hillfort_added, Toast.LENGTH_LONG).show()

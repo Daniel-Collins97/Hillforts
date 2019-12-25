@@ -67,4 +67,6 @@ abstract class BaseView : AppCompatActivity(), AnkoLogger {
 
     open fun showHillfort(hillfort: HillfortModel) {}
     open fun showHillforts(hillforts: List<HillfortModel>) {}
+    open fun showProgress() {}
+    open fun hideProgress() {}
 }

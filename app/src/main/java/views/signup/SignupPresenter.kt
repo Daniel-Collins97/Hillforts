@@ -1,48 +1,36 @@
 package views.signup
 
 import android.app.Activity.RESULT_OK
-import android.widget.Toast
 import com.assignment1.hillforts.R
-import com.assignment1.hillforts.models.UserModel
+import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.activity_signup.*
 import org.jetbrains.anko.AnkoLogger
-import org.jetbrains.anko.doAsync
-import org.jetbrains.anko.uiThread
+import org.jetbrains.anko.toast
 import views.base.BasePresenter
 import views.base.BaseView
 
 class SignupPresenter(view: BaseView): BasePresenter(view), AnkoLogger {
 
-    private var user = UserModel()
-    private val emailRegex = "^[A-Za-z](.*)([@])(.+)(\\.)(.+)"
+    private var auth: FirebaseAuth = FirebaseAuth.getInstance()
 
     fun doUserAdd() {
-        if (view?.userPassword!!.text.toString() == view?.userPasswordConfirm!!.text.toString()) {
-            user.firstName = view?.userFirstName!!.text.toString()
-            user.lastName = view?.userLastName!!.text.toString()
-            user.email = view?.userEmail!!.text.toString()
-            user.password = view?.userPassword!!.text.toString()
-            if (user.firstName.isNotEmpty() && user.lastName.isNotEmpty() && user.email.isNotEmpty() && user.password.isNotEmpty()) {
-                if (isEmailValid(user.email)) {
-                    doAsync {
-                        app.users.createUser(user.copy())
-                        uiThread {
-                            view?.setResult(RESULT_OK)
-                            view?.finish()
-                        }
+        if (view?.userFirstName!!.text.isNotEmpty() && view?.userLastName!!.text.isNotEmpty() && view?.userEmail!!.text.isNotEmpty() && view?.userPassword!!.text.isNotEmpty() && view?.userPasswordConfirm!!.text.isNotEmpty()) {
+            if (view?.userPassword!!.text.toString() == view?.userPasswordConfirm!!.text.toString()) {
+                view?.showProgress()
+                auth.createUserWithEmailAndPassword(view?.userEmail!!.text.toString(), view?.userPassword!!.text.toString()).addOnCompleteListener(view!!) { task ->
+                    if (task.isSuccessful) {
+                        view?.setResult(RESULT_OK)
+                        view?.finish()
+                    } else {
+                        view?.toast("Sign Up Failed: ${task.exception?.message}")
                     }
-                } else {
-                    Toast.makeText(view, R.string.invalid_email, Toast.LENGTH_LONG).show()
                 }
+                view?.hideProgress()
             } else {
-                Toast.makeText(view, R.string.toast_empty_fields, Toast.LENGTH_LONG).show()
+                view?.toast(R.string.passwords_do_not_match)
             }
         } else {
-            Toast.makeText(view, R.string.passwords_do_not_match, Toast.LENGTH_LONG).show()
+            view?.toast(R.string.toast_empty_fields)
         }
-    }
-
-    private fun isEmailValid(email: String): Boolean {
-        return emailRegex.toRegex().matches(email)
     }
 }

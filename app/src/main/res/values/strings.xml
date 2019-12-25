@@ -44,6 +44,14 @@
     <string name="dialog_try_again">Try Again</string>
     <string name="dialog_sign_up">Sign Up</string>
 
+    <string name="dialog_password_prompt_title">Re-Enter Password</string>
+    <string name="dialog_password_prompt_password_hint">Password</string>
+    <string name="dialog_password_prompt_submit">OK</string>
+    <string name="dialog_password_prompt_cancel">Cancel</string>
+
+    <string name="dialog_password_prompt_title_secondary">New Password</string>
+    <string name="dialog_password_prompt_password_hint_secondary">New Password</string>
+
     <string name="login_signup_button">Sign Up</string>
     <string name="login_login_button">Login</string>
     <string name="login_username_hint">Username</string>
@@ -74,6 +82,7 @@
     <string name="settings_statistics_visited_title">Visited</string>
     <string name="settings_statistics_visited_hint">0</string>
     <string name="settings_logout_btn">Log Out</string>
+    <string name="settings_change_password_btn">Change Password</string>
 
     <string name="dialog_edit_email_submit">Change</string>
     <string name="dialog_edit_email_cancel">Cancel</string>
@@ -90,4 +99,6 @@
     <string name="hillfort_image_placeholder">Image Placeholder</string>
     <string name="hillfort_title_placeholder">No Hillforts</string>
     <string name="hillfort_description_placeholder">There are no Hillforts currently saved</string>
+
+    <string name="authentication_failed">You have been logged out for failing the authentication process</string>
 </resources>

@@ -7,4 +7,5 @@ interface HillfortStore {
     fun updateHillfort(hillfort: HillfortModel)
     fun deleteHillfort(hillfort: HillfortModel)
     fun findHillfortById(id: Long): List<HillfortModel>
+    fun clear()
 }

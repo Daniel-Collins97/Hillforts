@@ -2,6 +2,7 @@ package views.login
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import com.assignment1.hillforts.R
 import kotlinx.android.synthetic.main.activity_login.*
 import org.jetbrains.anko.AnkoLogger
@@ -16,10 +17,12 @@ class LoginView : BaseView(), AnkoLogger {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
         presenter = initPresenter(LoginPresenter(this)) as LoginPresenter
+        progressBar.visibility = View.GONE
+
 
 
         loginButton.setOnClickListener {
-            presenter.doLogin()
+            presenter.doLogin(username.text.toString(), password.text.toString())
         }
 
         signupButton.setOnClickListener {
@@ -37,5 +40,13 @@ class LoginView : BaseView(), AnkoLogger {
         username.setText("")
         password.setText("")
         super.onActivityResult(requestCode, resultCode, data)
+    }
+
+    override fun showProgress() {
+        progressBar.visibility = View.VISIBLE
+    }
+
+    override fun hideProgress() {
+        progressBar.visibility = View.GONE
     }
 }

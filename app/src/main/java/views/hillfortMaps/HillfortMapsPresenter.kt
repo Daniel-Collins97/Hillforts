@@ -2,12 +2,12 @@ package views.hillfortMaps
 
 import com.assignment1.hillforts.helpers.readImageFromPath
 import com.assignment1.hillforts.models.HillfortModel
-import com.assignment1.hillforts.models.UserModel
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
+import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.content_hillfort_maps.*
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.uiThread
@@ -16,21 +16,15 @@ import views.base.BaseView
 
 class HillfortMapsPresenter(view: BaseView): BasePresenter(view) {
 
-    private var user = UserModel()
+    val user = FirebaseAuth.getInstance().currentUser
     private var hillfort = HillfortModel()
     private var allHillforts: List<HillfortModel>? = null
-
-    init {
-        if (view.intent.hasExtra("user")) {
-            user = view.intent.extras?.getParcelable("user")!!
-        }
-    }
 
     fun initMap(map: GoogleMap) {
         val defaultLoc = LatLng(52.2461, -7.1387)
         map.moveCamera(CameraUpdateFactory.newLatLngZoom(defaultLoc, 15.0f))
         doAsync {
-            allHillforts = app.hillforts.findAllHillforts().filter { it.userId == user.id }
+            allHillforts = app.hillforts.findAllHillforts().filter { it.userId == user?.uid.toString() }
             uiThread {
                 updateMapPage(allHillforts!!, map)
             }

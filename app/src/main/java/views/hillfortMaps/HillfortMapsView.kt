@@ -16,7 +16,6 @@ class HillfortMapsView : BaseView(), AnkoLogger, GoogleMap.OnMarkerClickListener
 
     private lateinit var map: GoogleMap
     private lateinit var presenter: HillfortMapsPresenter
-    private var currentHillfort = HillfortModel()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

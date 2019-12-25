@@ -82,4 +82,8 @@ class HillfortJSONStore(private val context: Context) : HillfortStore, AnkoLogge
         val jsonString = read(context, HILLFORTS_JSON_FILE)
         hillforts = Gson().fromJson(jsonString, hillfortsListType)
     }
+
+    override fun clear() {
+        hillforts.clear()
+    }
 }

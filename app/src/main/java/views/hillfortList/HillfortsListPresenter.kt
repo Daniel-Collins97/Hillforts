@@ -2,10 +2,9 @@ package views.hillfortList
 
 import com.assignment1.hillforts.models.HillfortModel
 import com.assignment1.hillforts.models.Location
-import com.assignment1.hillforts.models.UserModel
+import com.google.firebase.auth.FirebaseAuth
 import org.jetbrains.anko.AnkoLogger
 import org.jetbrains.anko.doAsync
-import org.jetbrains.anko.info
 import org.jetbrains.anko.uiThread
 import views.base.BasePresenter
 import views.base.BaseView
@@ -13,22 +12,17 @@ import views.base.VIEW
 
 class HillfortsListPresenter(view: BaseView): BasePresenter(view), AnkoLogger {
 
-    private var user = UserModel()
+    private val user = FirebaseAuth.getInstance().currentUser
     private var location = Location()
 
     init {
         if(view.intent.hasExtra("location")) location = view.intent.extras?.getParcelable("location")!!
-        if (view.intent.hasExtra("user")) user = view.intent.extras?.getParcelable("user")!!
     }
 
     fun getHillforts() {
         doAsync {
-            val hillforts = app.hillforts.findAllHillforts().filter { it.userId == user.id }
+            val hillforts = app.hillforts.findAllHillforts().filter { it.userId == user?.uid.toString() }
             uiThread {
-                info("@@@ LOGGED IN USER = ${user.id}")
-                hillforts.forEach {
-                    info("@@@ USERID = ${it.userId}")
-                }
                 view?.showHillforts(hillforts)
             }
         }

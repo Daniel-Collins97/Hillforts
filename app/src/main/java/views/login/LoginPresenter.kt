@@ -2,58 +2,42 @@ package views.login
 
 import android.text.method.HideReturnsTransformationMethod
 import android.text.method.PasswordTransformationMethod
-import android.widget.Toast
+import android.view.WindowManager
 import androidx.appcompat.app.AlertDialog
 import com.assignment1.hillforts.R
 import views.signup.SignupView
-import com.assignment1.hillforts.models.UserModel
+import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.activity_login.*
-import org.jetbrains.anko.AnkoLogger
-import org.jetbrains.anko.doAsync
-import org.jetbrains.anko.intentFor
-import org.jetbrains.anko.uiThread
+import org.jetbrains.anko.*
 import views.base.BasePresenter
 import views.base.BaseView
 import views.base.VIEW
 
+
+
 class LoginPresenter(view: BaseView): BasePresenter(view), AnkoLogger {
 
-    private var user = UserModel()
-    private var correctSet = false
     private var viewPassword = false
+    private var auth: FirebaseAuth = FirebaseAuth.getInstance()
 
-    fun doLogin() {
-        doAsync {
-            val allUsers = app.users.findAllUsers()
-            uiThread {
-                val userEmails = ArrayList<String>()
-                user.email = view?.username!!.text.toString()
-                user.password = view?.password!!.text.toString()
-                if (user.email.isNotEmpty()) {
-                    for (x in allUsers) {
-                        userEmails.add(x.email)
-                        if (x.password == user.password && x.email == user.email) {
-                            user.lastName = x.lastName
-                            user.firstName = x.firstName
-                            user.id = x.id
-                            correctSet = true
-                        }
-                    }
-                    when {
-                        correctSet -> {
-                            view?.navigateTo(VIEW.LIST, 0, "user", user, "", null)
-                        }
-                        user.email in userEmails -> Toast.makeText(
-                            view!!,
-                            R.string.user_incorrect_details,
-                            Toast.LENGTH_LONG
-                        ).show()
-                        else -> noUserDialog()
-                    }
+    fun doLogin(email: String, password: String) {
+        if(view?.username!!.text.isNotEmpty() && view?.password!!.text.isNotEmpty()) {
+            view?.showProgress()
+            view?.window?.setFlags(
+                WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
+                WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
+            auth.signInWithEmailAndPassword(email, password).addOnCompleteListener(view!!) { task ->
+                if (task.isSuccessful) {
+                    val user = FirebaseAuth.getInstance().currentUser
+                    view?.navigateTo(VIEW.LIST, 0, "user", user, "", null)
                 } else {
-                    Toast.makeText(view!!, R.string.toast_empty_fields, Toast.LENGTH_LONG).show()
+                    view?.toast("Login Unsuccessful: ${task.exception?.message}")
                 }
+                view?.hideProgress()
+                view?.window?.clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
             }
+        } else {
+            view?.toast(R.string.toast_empty_fields)
         }
     }
 

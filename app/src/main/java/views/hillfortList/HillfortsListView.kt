@@ -10,12 +10,13 @@ import com.assignment1.hillforts.activities.HillfortListener
 import views.hillforts.HillfortsView
 import views.login.LoginView
 import com.assignment1.hillforts.models.*
+import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.activity_hillforts_list.*
 import views.base.BaseView
 
 class HillfortsListView : BaseView(),  HillfortListener{
 
-    private var user = UserModel()
+    val user = FirebaseAuth.getInstance().currentUser
     private lateinit var presenter: HillfortsListPresenter
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -44,8 +45,7 @@ class HillfortsListView : BaseView(),  HillfortListener{
         return super.onOptionsItemSelected(item)
     }
 
-    override fun onBackPressed()
-    {
+    override fun onBackPressed() {
         super.onBackPressed()
         val intent = Intent(this@HillfortsListView, LoginView::class.java)
         startActivity(intent)
