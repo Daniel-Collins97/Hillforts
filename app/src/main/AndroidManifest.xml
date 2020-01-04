@@ -22,7 +22,6 @@
             android:name="views.editLocation.EditLocationView"
             android:label="@string/title_activity_map" />
         <activity android:name="views.editLocation.EditLocationPresenter" />
-
         <activity android:name="views.hillforts.HillfortsView" />
         <activity android:name="views.hillforts.HillfortsPresenter" />
         <activity android:name="views.hillfortList.HillfortsListView" />

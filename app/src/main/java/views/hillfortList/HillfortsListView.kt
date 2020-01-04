@@ -14,10 +14,11 @@ import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.activity_hillforts_list.*
 import views.base.BaseView
 
-class HillfortsListView : BaseView(),  HillfortListener{
 
+class HillfortsListView : BaseView(),  HillfortListener {
     val user = FirebaseAuth.getInstance().currentUser
     private lateinit var presenter: HillfortsListPresenter
+    private var favVisited = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -41,6 +42,17 @@ class HillfortsListView : BaseView(),  HillfortListener{
             R.id.item_add -> presenter.doAddHillfort()
             R.id.item_settings -> presenter.doSettings()
             R.id.item_map -> presenter.doShowHillfortMap()
+            R.id.item_favs -> {
+                if (favVisited) {
+                    item.setIcon(R.drawable.ic_star_black_24dp)
+                    presenter.getHillforts()
+                    favVisited = !favVisited
+                } else {
+                    item.setIcon(R.drawable.ic_star_gold_24dp)
+                    presenter.doGoToFavs()
+                    favVisited = !favVisited
+                }
+            }
         }
         return super.onOptionsItemSelected(item)
     }

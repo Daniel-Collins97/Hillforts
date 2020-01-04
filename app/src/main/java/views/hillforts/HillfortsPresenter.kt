@@ -2,14 +2,10 @@ package views.hillforts
 
 import android.annotation.SuppressLint
 import android.content.Intent
-import org.jetbrains.anko.uiThread
-import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
-import com.assignment1.hillforts.R
 import com.assignment1.hillforts.helpers.checkLocationPermissions
 import com.assignment1.hillforts.helpers.isPermissionGranted
 import com.assignment1.hillforts.models.Location
-import com.assignment1.hillforts.helpers.showImagePicker
 import com.assignment1.hillforts.models.HillfortModel
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
@@ -18,11 +14,13 @@ import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import com.google.firebase.auth.FirebaseAuth
-import org.jetbrains.anko.AnkoLogger
-import org.jetbrains.anko.doAsync
 import views.base.BasePresenter
 import views.base.BaseView
 import views.base.VIEW
+import android.text.Html
+import com.assignment1.hillforts.R
+import org.jetbrains.anko.*
+
 
 class HillfortsPresenter(view: BaseView) : BasePresenter(view), AnkoLogger{
 
@@ -30,7 +28,7 @@ class HillfortsPresenter(view: BaseView) : BasePresenter(view), AnkoLogger{
     private var edit = false
     private val imageRequest = 1
     private val locationRequest = 2
-    val user = FirebaseAuth.getInstance().currentUser
+    private val user = FirebaseAuth.getInstance().currentUser
     private var map: GoogleMap? = null
     private var defaultLocation = Location(52.2461, -7.1387, 15f)
     private var locationService: FusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(view)
@@ -39,6 +37,7 @@ class HillfortsPresenter(view: BaseView) : BasePresenter(view), AnkoLogger{
         if (view.intent.hasExtra("hillfort_edit")) {
             edit = true
             hillfort = view.intent.extras?.getParcelable("hillfort_edit")!!
+            locationUpdate(hillfort.lat, hillfort.lng)
             view.showHillfort(hillfort)
         } else {
             if (checkLocationPermissions(view)) {
@@ -57,6 +56,25 @@ class HillfortsPresenter(view: BaseView) : BasePresenter(view), AnkoLogger{
             doSetCurrentLocation()
         } else {
             locationUpdate(defaultLocation.lat, defaultLocation.lng)
+        }
+    }
+
+    fun shareHillfort() {
+        val hillfort = hillfort
+        if (edit) {
+            val sendIntent = Intent().apply {
+                this.action = Intent.ACTION_SEND
+                this.type = "text/html"
+                this.putExtra(
+                    Intent.EXTRA_TEXT,
+                    Html.fromHtml("<h1>${hillfort.title}</h1><p>Hillfort Title : ${hillfort.title}</p><p>Hillfort Description: ${hillfort.description}</p><p>Hillfort Visited? : ${hillfort.visited}</p><p>Hillfort Additional Notes: ${hillfort.additionalNotes}</p><p>Hillfort Lat Location: ${hillfort.lat}</p><p>Hillfort Lng Location: ${hillfort.lng}</p><p>Hillfort Rating: ${hillfort.rating}")
+                )
+                this.putExtra(Intent.EXTRA_EMAIL, "danieljcollins17@gmail.com")
+            }
+            val shareIntent = Intent.createChooser(sendIntent, "Share Hillfort to....")
+            view?.startActivity(shareIntent)
+        } else {
+            view?.toast("Hillfort Details are not complete")
         }
     }
 
@@ -79,15 +97,18 @@ class HillfortsPresenter(view: BaseView) : BasePresenter(view), AnkoLogger{
         view?.showHillfort(hillfort)
     }
 
-    fun doAddOrSave(hillfortTitle: String, hillfortDescription: String, visited: Boolean, hillfortAdditionalNotes: String) {
+    fun doAddOrSave(hillfortTitle: String, hillfortDescription: String, visited: Boolean, hillfortAdditionalNotes: String, hillfortRating: Float) {
         hillfort.title = hillfortTitle
         hillfort.description = hillfortDescription
         hillfort.visited = visited
         hillfort.additionalNotes = hillfortAdditionalNotes
         hillfort.userId = user?.uid.toString()
+        hillfort.rating = hillfortRating
         if (hillfort.title.isNotEmpty()) {
             if (!edit) {
-                Toast.makeText(view, R.string.toast_hillfort_added, Toast.LENGTH_LONG).show()
+                view?.toast(R.string.toast_hillfort_added)
+            } else {
+                view?.toast(R.string.toast_hillfort_updated)
             }
             doAsync {
                 if (edit) {
@@ -101,16 +122,16 @@ class HillfortsPresenter(view: BaseView) : BasePresenter(view), AnkoLogger{
             }
         }
         else {
-            Toast.makeText(view, R.string.toast_empty_fields, Toast.LENGTH_LONG).show()
+            view?.toast(R.string.toast_empty_fields)
         }
     }
 
     fun doCancel() {
         if (view?.intent?.hasExtra("hillfort_edit")!!) {
-            Toast.makeText(view, R.string.toast_hillfort_not_changed, Toast.LENGTH_LONG).show()
+            view?.toast(R.string.toast_hillfort_not_changed)
             view?.finish()
         } else {
-            Toast.makeText(view, R.string.toast_hillfort_not_added, Toast.LENGTH_LONG).show()
+            view?.toast(R.string.toast_hillfort_not_added)
             view?.finish()
         }
     }
@@ -124,7 +145,7 @@ class HillfortsPresenter(view: BaseView) : BasePresenter(view), AnkoLogger{
         builder.setTitle(R.string.dialog_delete_title)
         builder.setMessage(R.string.dialog_delete_confirmation)
         builder.setPositiveButton(R.string.dialog_confirm) { _, _ ->
-            Toast.makeText(view, R.string.dialog_deleted, Toast.LENGTH_LONG).show()
+            view?.toast(R.string.dialog_deleted)
             doAsync {
                 app.hillforts.deleteHillfort(hillfort)
                 uiThread {
@@ -133,15 +154,13 @@ class HillfortsPresenter(view: BaseView) : BasePresenter(view), AnkoLogger{
             }
         }
         builder.setNegativeButton(R.string.dialog_cancel) { _, _->
-            Toast.makeText(view, "Cancelled", Toast.LENGTH_LONG).show()
+            view?.toast("Cancelled")
         }
         builder.show()
     }
 
     fun doSelectImage() {
-        view?.let {
-            showImagePicker(view!!, imageRequest)
-        }
+        view?.showImagePickerFunction(view!!, imageRequest)
     }
 
     fun doSetLocation() {
@@ -149,35 +168,37 @@ class HillfortsPresenter(view: BaseView) : BasePresenter(view), AnkoLogger{
     }
 
     override fun doActivityResult(requestCode: Int, resultCode: Int, data: Intent) {
-        when (requestCode) {
-            imageRequest -> {
-                when {
-                    hillfort.image1 == "" -> {
-                        hillfort.image1 = data.data.toString()
-                        view?.showHillfort(hillfort)
-                    }
-                    hillfort.image2 == "" -> {
-                        hillfort.image2 = data.data.toString()
-                        view?.showHillfort(hillfort)
-                    }
-                    hillfort.image3 == "" -> {
-                        hillfort.image3 = data.data.toString()
-                        view?.showHillfort(hillfort)
-                    }
-                    hillfort.image4 == "" -> {
-                        hillfort.image4 = data.data.toString()
-                        view?.showHillfort(hillfort)
-                    }
+        if (requestCode == imageRequest) {
+            when {
+                hillfort.image1 === "" -> {
+                    hillfort.image1 = data.data.toString()
+                    view?.showHillfort(hillfort)
+                    return
+                }
+                hillfort.image2 === "" -> {
+                    hillfort.image2 = data.data.toString()
+                    view?.showHillfort(hillfort)
+                    return
+                }
+                hillfort.image3 === "" -> {
+                    hillfort.image3 = data.data.toString()
+                    view?.showHillfort(hillfort)
+                    return
+                }
+                hillfort.image4 === "" -> {
+                    hillfort.image4 = data.data.toString()
+                    view?.showHillfort(hillfort)
+                    return
                 }
             }
-
-            locationRequest -> {
-                val location = data.extras?.getParcelable<Location>("location")!!
-                hillfort.lat = location.lat
-                hillfort.lng = location.lng
-                hillfort.zoom = location.zoom
-                locationUpdate(hillfort.lat, hillfort.lng)
-            }
+        } else if (requestCode == locationRequest) {
+            val location = data.extras?.getParcelable<Location>("location")!!
+            hillfort.lat = location.lat
+            hillfort.lng = location.lng
+            hillfort.zoom = location.zoom
+            info("@@@ HILLFORT LAT = ${hillfort.lat}")
+            info("@@@ HILLFORT LNG = ${hillfort.lng}")
+            locationUpdate(hillfort.lat, hillfort.lng)
         }
     }
 }

@@ -10,6 +10,8 @@ import kotlinx.android.parcel.Parcelize
 data class HillfortModel (@PrimaryKey(autoGenerate = true)
                           var id: Long = 0,
                           var fbId : String = "",
+                          var rating: Float = 0f,
+                          var favValue: Boolean = false,
                           var userId: String = "",
                           var title: String = "",
                           var description: String = "",
@@ -27,3 +29,5 @@ data class HillfortModel (@PrimaryKey(autoGenerate = true)
 data class Location(var lat: Double = 0.0,
                     var lng: Double = 0.0,
                     var zoom: Float = 0f) : Parcelable
+
+

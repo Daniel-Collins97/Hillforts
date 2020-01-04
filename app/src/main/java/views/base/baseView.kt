@@ -1,5 +1,6 @@
 package views.base
 
+import android.app.Activity
 import android.content.Intent
 
 import android.os.Parcelable
@@ -8,12 +9,13 @@ import org.jetbrains.anko.AnkoLogger
 
 import com.assignment1.hillforts.models.HillfortModel
 import views.editLocation.EditLocationView
-import views.hillfortMaps.HillfortMapsView
 import views.hillforts.HillfortsView
 import views.hillfortList.HillfortsListView
 import views.login.LoginView
 import views.settings.SettingsView
 import views.signup.SignupView
+import com.assignment1.hillforts.helpers.showImagePicker
+import views.hillfortMaps.HillfortMapsView
 
 enum class VIEW {
     LOCATION, HILLFORT, MAPS, LIST, SETTINGS, LOGIN, SIGNUP
@@ -46,6 +48,10 @@ abstract class BaseView : AppCompatActivity(), AnkoLogger {
     fun initPresenter(presenter: BasePresenter): BasePresenter {
         basePresenter = presenter
         return presenter
+    }
+
+    fun showImagePickerFunction(view: Activity, requestCode: Int) {
+        showImagePicker(view, requestCode)
     }
 
     override fun onDestroy() {

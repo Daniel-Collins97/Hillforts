@@ -8,6 +8,7 @@
     tools:context="views.hillforts.HillfortsView">
 
     <ScrollView
+        android:id="@+id/scrollView2"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -134,8 +135,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="16dp"
-                android:checked="true"
+                android:checked="false"
                 android:text="@string/visited_checkbox" />
+
 
             <Button
                 android:id="@+id/hillfortLocation"
@@ -149,7 +151,6 @@
                 android:text="@string/button_location"
                 android:textColor="@color/colorAccent"
                 android:textSize="16sp" />
-
 
             <com.google.android.gms.maps.MapView
                 android:id="@+id/hillfortMapLoc"
@@ -175,6 +176,15 @@
                 android:textSize="14sp"
                 tools:targetApi="o" />
 
+            <RatingBar
+                android:id="@+id/ratingBar1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="80dp"
+                android:progressTint="@color/colorPrimary"
+                android:stepSize="1"
+                android:theme="@style/Widget.AppCompat.RatingBar" />
+
             <Button
                 android:id="@+id/btnAdd"
                 android:layout_width="match_parent"
@@ -189,5 +199,16 @@
                 android:textSize="16sp" />
         </LinearLayout>
     </ScrollView>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/shareButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_margin="15dp"
+        android:backgroundTint="#9149EC"
+        app:layout_constraintBottom_toBottomOf="@+id/scrollView2"
+        app:layout_constraintEnd_toEndOf="@+id/scrollView2"
+        app:srcCompat="@android:drawable/ic_menu_share" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

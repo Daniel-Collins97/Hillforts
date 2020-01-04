@@ -2,6 +2,7 @@ package views.hillfortMaps
 
 import com.assignment1.hillforts.helpers.readImageFromPath
 import com.assignment1.hillforts.models.HillfortModel
+import com.bumptech.glide.Glide
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.model.LatLng
@@ -9,12 +10,14 @@ import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.content_hillfort_maps.*
+import org.jetbrains.anko.AnkoLogger
 import org.jetbrains.anko.doAsync
+import org.jetbrains.anko.info
 import org.jetbrains.anko.uiThread
 import views.base.BasePresenter
 import views.base.BaseView
 
-class HillfortMapsPresenter(view: BaseView): BasePresenter(view) {
+class HillfortMapsPresenter(view: BaseView): BasePresenter(view), AnkoLogger {
 
     val user = FirebaseAuth.getInstance().currentUser
     private var hillfort = HillfortModel()
@@ -40,15 +43,15 @@ class HillfortMapsPresenter(view: BaseView): BasePresenter(view) {
             hillfort = it
             view?.currentTitle!!.text = hillfort.title
             view?.currentDescription!!.text = hillfort.description
-            view?.currentImage!!.setImageBitmap(readImageFromPath(view!!, hillfort.image1))
+            Glide.with(view!!).load(hillfort.image1).into(view?.currentImage!!)
         }
     }
 
-    fun doMarkerClick(marker: Marker): Boolean {
+    fun doMarkerClick(marker: Marker) {
+        info("@@@ HELLO")
         val hillfort = marker.tag as HillfortModel
         view?.currentTitle!!.text = hillfort.title
         view?.currentDescription!!.text = hillfort.description
         view?.currentImage!!.setImageBitmap(readImageFromPath(view!!, hillfort.image1))
-        return false
     }
 }

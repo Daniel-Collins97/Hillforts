@@ -17,7 +17,7 @@ class EditLocationView : BaseView(), OnMapReadyCallback,  GoogleMap.OnMarkerDrag
     }
 
     override fun onMarkerDragEnd(marker: Marker) {
-        presenter.doMarkerDragEnd(marker.position.latitude, marker.position.longitude)
+        presenter.doMarkerDragEnd(marker)
     }
 
     private lateinit var presenter: EditLocationPresenter
@@ -28,10 +28,13 @@ class EditLocationView : BaseView(), OnMapReadyCallback,  GoogleMap.OnMarkerDrag
         val mapFragment = supportFragmentManager
             .findFragmentById(R.id.map) as SupportMapFragment
         mapFragment.getMapAsync(this)
+
         presenter = initPresenter(EditLocationPresenter(this)) as EditLocationPresenter
     }
 
     override fun onMapReady(googleMap: GoogleMap) {
+        googleMap.setOnMarkerDragListener(this)
+        googleMap.setOnMarkerClickListener(this)
         presenter.doMapReady(googleMap)
     }
 

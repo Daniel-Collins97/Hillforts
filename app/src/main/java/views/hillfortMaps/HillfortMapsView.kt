@@ -2,17 +2,14 @@ package views.hillfortMaps
 
 import android.os.Bundle
 import com.assignment1.hillforts.R
-import com.assignment1.hillforts.helpers.readImageFromPath
-import com.assignment1.hillforts.models.HillfortModel
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.model.Marker
 import kotlinx.android.synthetic.main.content_hillfort_maps.*
 
 import org.jetbrains.anko.AnkoLogger
-import org.jetbrains.anko.info
 import views.base.BaseView
 
-class HillfortMapsView : BaseView(), AnkoLogger, GoogleMap.OnMarkerClickListener{
+class HillfortMapsView : BaseView(), AnkoLogger, GoogleMap.OnMarkerClickListener {
 
     private lateinit var map: GoogleMap
     private lateinit var presenter: HillfortMapsPresenter
@@ -32,7 +29,8 @@ class HillfortMapsView : BaseView(), AnkoLogger, GoogleMap.OnMarkerClickListener
     }
 
     override fun onMarkerClick(marker: Marker): Boolean {
-        return presenter.doMarkerClick(marker)
+        presenter.doMarkerClick(marker)
+        return true
     }
 
     override fun onDestroy() {

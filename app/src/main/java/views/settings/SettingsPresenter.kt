@@ -46,6 +46,7 @@ class SettingsPresenter(view: BaseView): BasePresenter(view), AnkoLogger {
 
     fun doLogOut() {
         FirebaseAuth.getInstance().signOut()
+        app.hillforts.clear()
         view?.navigateTo(VIEW.LOGIN, 0, "", null, "", null)
     }
 

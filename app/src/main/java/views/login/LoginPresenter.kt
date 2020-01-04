@@ -5,6 +5,7 @@ import android.text.method.PasswordTransformationMethod
 import android.view.WindowManager
 import androidx.appcompat.app.AlertDialog
 import com.assignment1.hillforts.R
+import com.assignment1.hillforts.firebase.HillfortFireStore
 import views.signup.SignupView
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.activity_login.*
@@ -19,6 +20,13 @@ class LoginPresenter(view: BaseView): BasePresenter(view), AnkoLogger {
 
     private var viewPassword = false
     private var auth: FirebaseAuth = FirebaseAuth.getInstance()
+    private var fireStore: HillfortFireStore? = null
+
+    init {
+        if (app.hillforts is HillfortFireStore) {
+            fireStore = app.hillforts as HillfortFireStore
+        }
+    }
 
     fun doLogin(email: String, password: String) {
         if(view?.username!!.text.isNotEmpty() && view?.password!!.text.isNotEmpty()) {
@@ -28,8 +36,15 @@ class LoginPresenter(view: BaseView): BasePresenter(view), AnkoLogger {
                 WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
             auth.signInWithEmailAndPassword(email, password).addOnCompleteListener(view!!) { task ->
                 if (task.isSuccessful) {
-                    val user = FirebaseAuth.getInstance().currentUser
-                    view?.navigateTo(VIEW.LIST, 0, "user", user, "", null)
+                    if (fireStore != null) {
+                        fireStore!!.fetchHillforts {
+                            val user = FirebaseAuth.getInstance().currentUser
+                            view?.navigateTo(VIEW.LIST, 0, "user", user, "", null)
+                        }
+                    } else {
+                        val user = FirebaseAuth.getInstance().currentUser
+                        view?.navigateTo(VIEW.LIST, 0, "user", user, "", null)
+                    }
                 } else {
                     view?.toast("Login Unsuccessful: ${task.exception?.message}")
                 }

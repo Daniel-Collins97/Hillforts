@@ -8,6 +8,7 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
 import org.jetbrains.anko.AnkoLogger
+import org.jetbrains.anko.info
 import views.base.BasePresenter
 import views.base.BaseView
 
@@ -34,6 +35,7 @@ class EditLocationPresenter(view: BaseView): BasePresenter(view), AnkoLogger {
     }
 
     fun doOnMarkerClick(marker: Marker): Boolean {
+        info("@@@ ")
         val loc = LatLng(marker.position.latitude, marker.position.longitude)
         marker.snippet = "GPS : $loc"
         return false
@@ -46,8 +48,8 @@ class EditLocationPresenter(view: BaseView): BasePresenter(view), AnkoLogger {
         view?.finish()
     }
 
-    fun doMarkerDragEnd(lat: Double, lng: Double) {
-        location.lat = lat
-        location.lng = lng
+    fun doMarkerDragEnd(marker: Marker?) {
+        location.lat = marker?.position!!.latitude
+        location.lng = marker.position.longitude
     }
 }
