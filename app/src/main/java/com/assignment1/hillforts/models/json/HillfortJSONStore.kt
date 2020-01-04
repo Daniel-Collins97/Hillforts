@@ -1,4 +1,4 @@
-package com.assignment1.hillforts.models
+package com.assignment1.hillforts.models.json
 
 import android.content.Context
 import com.google.gson.Gson
@@ -6,6 +6,8 @@ import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
 import org.jetbrains.anko.AnkoLogger
 import com.assignment1.hillforts.helpers.*
+import com.assignment1.hillforts.models.HillfortModel
+import com.assignment1.hillforts.models.HillfortStore
 import org.jetbrains.anko.info
 import java.lang.reflect.Type
 import java.util.*
@@ -32,18 +34,18 @@ class HillfortJSONStore(private val context: Context) : HillfortStore, AnkoLogge
         }
     }
 
-    override fun findAll(): MutableList<HillfortModel> {
+    override fun findAllHillforts(): MutableList<HillfortModel> {
         return hillforts
     }
 
-    override fun create(hillfort: HillfortModel) {
+    override fun createHillfort(hillfort: HillfortModel) {
         hillfort.id = generateRandomHillfortsId()
         hillforts.add(hillfort)
         serialize()
     }
 
 
-    override fun update(hillfort: HillfortModel) {
+    override fun updateHillfort(hillfort: HillfortModel) {
         val foundHillfort = hillforts.find { p -> p.id == hillfort.id }
         if (foundHillfort != null) {
             foundHillfort.additionalNotes = hillfort.additionalNotes
@@ -62,9 +64,13 @@ class HillfortJSONStore(private val context: Context) : HillfortStore, AnkoLogge
         serialize()
     }
 
-    override fun delete(hillfort: HillfortModel) {
+    override fun deleteHillfort(hillfort: HillfortModel) {
         hillforts.remove(hillfort)
         serialize()
+    }
+
+    override fun findHillfortById(id: Long): List<HillfortModel> {
+        return hillforts.filter { it.id == id }
     }
 
     private fun serialize() {
@@ -75,5 +81,9 @@ class HillfortJSONStore(private val context: Context) : HillfortStore, AnkoLogge
     private fun deserialize() {
         val jsonString = read(context, HILLFORTS_JSON_FILE)
         hillforts = Gson().fromJson(jsonString, hillfortsListType)
+    }
+
+    override fun clear() {
+        hillforts.clear()
     }
 }

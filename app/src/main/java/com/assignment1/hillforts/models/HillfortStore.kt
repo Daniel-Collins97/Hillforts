@@ -1,9 +1,11 @@
 package com.assignment1.hillforts.models
 
 interface HillfortStore {
-    fun findAll(): List<HillfortModel>
-    fun create(hillfort: HillfortModel)
+    fun findAllHillforts(): List<HillfortModel>
+    fun createHillfort(hillfort: HillfortModel)
     fun logAll()
-    fun update(hillfort: HillfortModel)
-    fun delete(hillfort: HillfortModel)
+    fun updateHillfort(hillfort: HillfortModel)
+    fun deleteHillfort(hillfort: HillfortModel)
+    fun findHillfortById(id: Long): List<HillfortModel>
+    fun clear()
 }

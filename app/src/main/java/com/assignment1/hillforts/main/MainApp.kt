@@ -1,19 +1,19 @@
 package com.assignment1.hillforts.main
 
 import android.app.Application
+import com.assignment1.hillforts.firebase.HillfortFireStore
 import com.assignment1.hillforts.models.*
+import com.assignment1.hillforts.room.HillfortStoreRoom
 import org.jetbrains.anko.AnkoLogger
 import org.jetbrains.anko.info
 
 class MainApp : Application(), AnkoLogger {
 
     lateinit var hillforts: HillfortStore
-    lateinit var users: UserStore
 
     override fun onCreate() {
         super.onCreate()
-        hillforts = HillfortJSONStore(applicationContext)
-        users = UserJSONStore(applicationContext)
+        hillforts = HillfortFireStore(applicationContext)
         info("Hillforts started")
     }
 }

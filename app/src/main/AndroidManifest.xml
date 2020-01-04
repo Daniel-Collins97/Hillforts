@@ -2,7 +2,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="com.assignment1.hillforts">
+
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+
     <application
         android:name=".main.MainApp"
         android:icon="@mipmap/assignment1_launcher"
@@ -11,25 +13,33 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="AllowBackup,GoogleAppIndexingWarning">
+
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
 
         <activity
-            android:name=".activities.MapActivity"
+            android:name="views.editLocation.EditLocationView"
             android:label="@string/title_activity_map" />
-        <activity android:name=".activities.HillfortActivity"/>
-        <activity android:name=".activities.HillfortsListActivity"/>
-        <activity android:name=".activities.LoginActivity"/>
-        <activity android:name=".activities.SignupActivity"/>
-        <activity android:name=".activities.SettingsActivity"/>
+        <activity android:name="views.editLocation.EditLocationPresenter" />
+        <activity android:name="views.hillforts.HillfortsView" />
+        <activity android:name="views.hillforts.HillfortsPresenter" />
+        <activity android:name="views.hillfortList.HillfortsListView" />
+        <activity android:name="views.login.LoginView" />
+        <activity android:name="views.signup.SignupView" />
+        <activity android:name="views.settings.SettingsView" />
+        <activity android:name="views.hillfortMaps.HillfortMapsView" />
+        <activity android:name="views.login.LoginPresenter" />
+        <activity android:name="views.settings.SettingsPresenter" />
+        <activity android:name="views.signup.SignupPresenter" />
         <activity
-            android:name=".activities.SplashScreenActivity"
+            android:name="views.splashScreen.SplashScreenActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
-                <category android:name="android.intent.category.LAUNCHER"/>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
     </application>

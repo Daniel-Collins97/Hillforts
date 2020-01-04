@@ -6,11 +6,21 @@
         android:id="@+id/item_add"
         android:icon="@android:drawable/ic_menu_add"
         android:title="@string/menu_addHillfort"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/item_favs"
+        android:icon="@drawable/ic_star_black_24dp"
+        android:title="@string/menu_favs"
         app:showAsAction="always" />
-
+    <item
+        android:id="@+id/item_map"
+        android:icon="@android:drawable/ic_menu_mapmode"
+        android:title="@string/menu_hillfortMaps"
+        app:showAsAction="ifRoom" />
     <item
         android:id="@+id/item_settings"
         android:icon="@drawable/ic_settings_black_24dp"
         android:title="@string/menu_settings"
-        app:showAsAction="always" />
+        app:showAsAction="ifRoom" />
+
 </menu>

@@ -1,11 +1,18 @@
 package com.assignment1.hillforts.models
 
 import android.os.Parcelable
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 import kotlinx.android.parcel.Parcelize
 
 @Parcelize
-data class HillfortModel (var id: Long = 0,
-                          var userId: Long = 0,
+@Entity
+data class HillfortModel (@PrimaryKey(autoGenerate = true)
+                          var id: Long = 0,
+                          var fbId : String = "",
+                          var rating: Float = 0f,
+                          var favValue: Boolean = false,
+                          var userId: String = "",
                           var title: String = "",
                           var description: String = "",
                           var image1: String = "",
@@ -22,3 +29,5 @@ data class HillfortModel (var id: Long = 0,
 data class Location(var lat: Double = 0.0,
                     var lng: Double = 0.0,
                     var zoom: Float = 0f) : Parcelable
+
+
