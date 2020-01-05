@@ -29,6 +29,7 @@
         <activity android:name="views.signup.SignupView" />
         <activity android:name="views.settings.SettingsView" />
         <activity android:name="views.hillfortMaps.HillfortMapsView" />
+        <activity android:name="views.searchHillforts.SearchView" />
         <activity android:name="views.login.LoginPresenter" />
         <activity android:name="views.settings.SettingsPresenter" />
         <activity android:name="views.signup.SignupPresenter" />

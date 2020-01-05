@@ -9,12 +9,10 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
-import org.jetbrains.anko.AnkoLogger
-import org.jetbrains.anko.info
 import java.io.ByteArrayOutputStream
 import java.io.File
 
-class HillfortFireStore(val context: Context) : HillfortStore, AnkoLogger {
+class HillfortFireStore(val context: Context) : HillfortStore {
 
     val hillforts = ArrayList<HillfortModel>()
     private lateinit var userId: String
@@ -104,9 +102,7 @@ class HillfortFireStore(val context: Context) : HillfortStore, AnkoLogger {
                 val fileName = File(hillfort.image1)
                 val imageName = fileName.name
 
-                info("@@@ ST: $st")
                 val imageRef = st.child("$userId/$imageName")
-                info("@@@ IMAGEREF: $imageRef")
                 val baos = ByteArrayOutputStream()
                 val bitmap = readImageFromPath(context, hillfort.image1)
 

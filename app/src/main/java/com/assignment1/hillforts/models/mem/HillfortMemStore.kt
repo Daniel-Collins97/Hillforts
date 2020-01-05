@@ -2,8 +2,6 @@ package com.assignment1.hillforts.models.mem
 
 import com.assignment1.hillforts.models.HillfortModel
 import com.assignment1.hillforts.models.HillfortStore
-import org.jetbrains.anko.AnkoLogger
-import org.jetbrains.anko.info
 
 var lastId = 0L
 
@@ -11,7 +9,7 @@ internal fun getId(): Long {
     return lastId++
 }
 
-class HillfortMemStore : HillfortStore, AnkoLogger {
+class HillfortMemStore : HillfortStore {
 
     val hillforts = ArrayList<HillfortModel>()
 
@@ -51,9 +49,7 @@ class HillfortMemStore : HillfortStore, AnkoLogger {
         hillforts.remove(hillfort)
     }
 
-    override fun logAll() {
-        hillforts.forEach { info("$it") }
-    }
+    override fun logAll() {}
 
     override fun clear() {
         hillforts.clear()

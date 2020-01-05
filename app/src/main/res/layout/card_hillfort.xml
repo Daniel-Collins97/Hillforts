@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginBottom="8dp"
@@ -26,7 +25,6 @@
             android:layout_alignParentTop="true"
             android:layout_marginStart="50dp"
             android:layout_marginTop="0dp"
-            android:text="hello"
             android:textColor="@color/colorAccent"
             android:textSize="30sp" />
 
@@ -37,7 +35,9 @@
             android:layout_alignParentTop="true"
             android:layout_marginStart="50dp"
             android:layout_marginTop="35dp"
-            android:text="-989.546789765"
+            android:maxLines="1"
+            android:maxLength="10"
+            android:ellipsize="end"
             android:textColor="@color/colorAccent"
             android:textSize="15sp" />
 
@@ -48,7 +48,9 @@
             android:layout_alignParentTop="true"
             android:layout_marginStart="50dp"
             android:layout_marginTop="56dp"
-            android:text="-989.54678976"
+            android:maxLines="1"
+            android:maxLength="10"
+            android:ellipsize="end"
             android:textColor="@color/colorAccent"
             android:textSize="15sp" />
 

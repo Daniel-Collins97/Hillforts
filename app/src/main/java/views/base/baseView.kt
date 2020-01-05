@@ -16,9 +16,10 @@ import views.settings.SettingsView
 import views.signup.SignupView
 import com.assignment1.hillforts.helpers.showImagePicker
 import views.hillfortMaps.HillfortMapsView
+import views.searchHillforts.SearchView
 
 enum class VIEW {
-    LOCATION, HILLFORT, MAPS, LIST, SETTINGS, LOGIN, SIGNUP
+    LOCATION, HILLFORT, MAPS, LIST, SETTINGS, LOGIN, SIGNUP, SEARCH
 }
 
 abstract class BaseView : AppCompatActivity(), AnkoLogger {
@@ -35,6 +36,7 @@ abstract class BaseView : AppCompatActivity(), AnkoLogger {
             VIEW.SETTINGS -> intent = Intent(this, SettingsView::class.java)
             VIEW.LOGIN -> intent = Intent(this, LoginView::class.java)
             VIEW.SIGNUP -> intent = Intent(this, SignupView::class.java)
+            VIEW.SEARCH -> intent = Intent(this, SearchView::class.java)
         }
         if (key != "") {
             intent.putExtra(key, value)

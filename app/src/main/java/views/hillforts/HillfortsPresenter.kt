@@ -22,7 +22,7 @@ import com.assignment1.hillforts.R
 import org.jetbrains.anko.*
 
 
-class HillfortsPresenter(view: BaseView) : BasePresenter(view), AnkoLogger{
+class HillfortsPresenter(view: BaseView) : BasePresenter(view) {
 
     private var hillfort = HillfortModel()
     private var edit = false
@@ -196,8 +196,6 @@ class HillfortsPresenter(view: BaseView) : BasePresenter(view), AnkoLogger{
             hillfort.lat = location.lat
             hillfort.lng = location.lng
             hillfort.zoom = location.zoom
-            info("@@@ HILLFORT LAT = ${hillfort.lat}")
-            info("@@@ HILLFORT LNG = ${hillfort.lng}")
             locationUpdate(hillfort.lat, hillfort.lng)
         }
     }

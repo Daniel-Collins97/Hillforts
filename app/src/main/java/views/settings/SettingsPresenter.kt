@@ -10,7 +10,6 @@ import com.assignment1.hillforts.models.HillfortModel
 import com.google.firebase.auth.EmailAuthProvider
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.activity_settings.*
-import org.jetbrains.anko.AnkoLogger
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.toast
 import org.jetbrains.anko.uiThread
@@ -18,7 +17,7 @@ import views.base.BasePresenter
 import views.base.BaseView
 import views.base.VIEW
 
-class SettingsPresenter(view: BaseView): BasePresenter(view), AnkoLogger {
+class SettingsPresenter(view: BaseView): BasePresenter(view) {
 
     private val user = FirebaseAuth.getInstance().currentUser
     private var allHillforts: List<HillfortModel>? = null

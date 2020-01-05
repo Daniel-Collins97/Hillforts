@@ -6,27 +6,23 @@ import android.view.Menu
 import android.view.MenuItem
 import android.widget.RatingBar
 import kotlinx.android.synthetic.main.activity_hillfort.*
-import org.jetbrains.anko.AnkoLogger
 import com.assignment1.hillforts.R
 import com.assignment1.hillforts.models.HillfortModel
 import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.activity_hillfort.hillfortTitle
-import kotlinx.android.synthetic.main.activity_settings.view.*
-import kotlinx.android.synthetic.main.card_hillfort.*
-import org.jetbrains.anko.info
 import views.base.BaseView
 
 
 
 
-class HillfortsView : BaseView(), AnkoLogger, RatingBar.OnRatingBarChangeListener {
+class HillfortsView : BaseView(), RatingBar.OnRatingBarChangeListener {
 
     private lateinit var presenter: HillfortsPresenter
     private var hillfort = HillfortModel()
-    var hillfortTitleStr: String = ""
-    var hillfortDescStr: String = ""
-    var hillfortVisitedStr: Boolean = false
-    var hillfortAdditionalNotesStr: String = ""
+    private var hillfortTitleStr: String = ""
+    private var hillfortDescStr: String = ""
+    private var hillfortVisitedStr: Boolean = false
+    private var hillfortAdditionalNotesStr: String = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -112,19 +108,15 @@ class HillfortsView : BaseView(), AnkoLogger, RatingBar.OnRatingBarChangeListene
         hillfortDescription.setText(hillfort.description)
         if (hillfort.image1 != "") {
             Glide.with(this).load(hillfort.image1).into(hillfortImage1)
-            info("IMAGE1HERE")
         }
         if (hillfort.image2 != "") {
             Glide.with(this).load(hillfort.image2).into(hillfortImage2)
-            info("IMAGE2HERE")
         }
         if (hillfort.image3 != "") {
             Glide.with(this).load(hillfort.image3).into(hillfortImage3)
-            info("IMAGE3HERE")
         }
         if (hillfort.image4 != "") {
             Glide.with(this).load(hillfort.image4).into(hillfortImage4)
-            info("IMAGE4HERE")
             chooseImage.setText(R.string.change_hillfort_image)
         }
         hillfortAdditionalNotes.setText(hillfort.additionalNotes)

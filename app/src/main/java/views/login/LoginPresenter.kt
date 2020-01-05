@@ -16,7 +16,7 @@ import views.base.VIEW
 
 
 
-class LoginPresenter(view: BaseView): BasePresenter(view), AnkoLogger {
+class LoginPresenter(view: BaseView): BasePresenter(view) {
 
     private var viewPassword = false
     private var auth: FirebaseAuth = FirebaseAuth.getInstance()
@@ -54,20 +54,6 @@ class LoginPresenter(view: BaseView): BasePresenter(view), AnkoLogger {
         } else {
             view?.toast(R.string.toast_empty_fields)
         }
-    }
-
-    private fun noUserDialog() {
-        val builder = AlertDialog.Builder(view!!)
-        builder.setTitle(R.string.dialog_no_user_title)
-        builder.setMessage(R.string.dialog_no_user_message)
-        builder.setPositiveButton(R.string.dialog_try_again) { _, _ ->
-            view?.username!!.setText("")
-            view?.password!!.setText("")
-        }
-        builder.setNegativeButton(R.string.dialog_sign_up) { _, _->
-            view?.startActivityForResult(view?.intentFor<SignupView>(), 0)
-        }
-        builder.show()
     }
 
     fun doSignUp() {

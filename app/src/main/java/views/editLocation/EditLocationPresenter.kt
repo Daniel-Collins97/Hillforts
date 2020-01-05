@@ -8,11 +8,10 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
 import org.jetbrains.anko.AnkoLogger
-import org.jetbrains.anko.info
 import views.base.BasePresenter
 import views.base.BaseView
 
-class EditLocationPresenter(view: BaseView): BasePresenter(view), AnkoLogger {
+class EditLocationPresenter(view: BaseView): BasePresenter(view) {
 
     private lateinit var map: GoogleMap
     private var location = Location()
@@ -35,7 +34,6 @@ class EditLocationPresenter(view: BaseView): BasePresenter(view), AnkoLogger {
     }
 
     fun doOnMarkerClick(marker: Marker): Boolean {
-        info("@@@ ")
         val loc = LatLng(marker.position.latitude, marker.position.longitude)
         marker.snippet = "GPS : $loc"
         return false
