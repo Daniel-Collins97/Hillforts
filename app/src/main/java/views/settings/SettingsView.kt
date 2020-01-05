@@ -3,14 +3,12 @@ package views.settings
 import android.os.Bundle
 import android.view.View
 import com.assignment1.hillforts.R
-import kotlinx.android.synthetic.main.activity_login.*
 import kotlinx.android.synthetic.main.activity_settings.*
 import kotlinx.android.synthetic.main.activity_settings.progressBar
-import org.jetbrains.anko.AnkoLogger
 import views.base.BaseView
 
 
-class SettingsView : BaseView(), AnkoLogger {
+class SettingsView : BaseView() {
 
     private lateinit var presenter: SettingsPresenter
 

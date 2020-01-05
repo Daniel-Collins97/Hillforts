@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginTop="8dp"
+    tools:context="views.searchHillforts.SearchView">
+
+    <TextView
+        android:id="@+id/noFoundHillforts"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="200dp"
+        android:text="No Hillforts Found"
+        android:textAlignment="center"
+        android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+        android:textSize="36sp"
+        android:textStyle="italic"
+        tools:visibility="visible" />
+
+    <EditText
+        android:id="@+id/searchParam"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:layout_margin="8dp"
+        android:autofillHints=""
+        android:backgroundTint="@color/colorPrimary"
+        android:hint="@string/hint_hillfortTitle"
+        android:inputType="text"
+        android:maxLength="25"
+        android:maxLines="1"
+        android:padding="8dp"
+        android:textColor="@color/colorAccent"
+        android:textSize="14sp"
+        tools:targetApi="o" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="90dp"
+        android:scrollbars="vertical"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

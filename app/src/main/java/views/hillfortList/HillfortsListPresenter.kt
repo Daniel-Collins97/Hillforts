@@ -55,4 +55,8 @@ class HillfortsListPresenter(view: BaseView): BasePresenter(view), AnkoLogger {
     fun doShowHillfortMap() {
         view?.navigateTo(VIEW.MAPS, 0, "user", user, "", null)
     }
+
+    fun doSearchHillforts() {
+        view?.navigateTo(VIEW.SEARCH, 0, "user", user, "", null)
+    }
 }

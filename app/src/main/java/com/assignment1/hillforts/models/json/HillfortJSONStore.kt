@@ -4,11 +4,9 @@ import android.content.Context
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
-import org.jetbrains.anko.AnkoLogger
 import com.assignment1.hillforts.helpers.*
 import com.assignment1.hillforts.models.HillfortModel
 import com.assignment1.hillforts.models.HillfortStore
-import org.jetbrains.anko.info
 import java.lang.reflect.Type
 import java.util.*
 
@@ -20,11 +18,9 @@ fun generateRandomHillfortsId(): Long {
     return Random().nextLong()
 }
 
-class HillfortJSONStore(private val context: Context) : HillfortStore, AnkoLogger {
+class HillfortJSONStore(private val context: Context) : HillfortStore {
 
-    override fun logAll() {
-        hillforts.forEach { info("$it") }
-    }
+    override fun logAll() {}
 
     var hillforts = mutableListOf<HillfortModel>()
 

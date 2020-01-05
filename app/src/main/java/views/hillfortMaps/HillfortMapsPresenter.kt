@@ -10,14 +10,12 @@ import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.content_hillfort_maps.*
-import org.jetbrains.anko.AnkoLogger
 import org.jetbrains.anko.doAsync
-import org.jetbrains.anko.info
 import org.jetbrains.anko.uiThread
 import views.base.BasePresenter
 import views.base.BaseView
 
-class HillfortMapsPresenter(view: BaseView): BasePresenter(view), AnkoLogger {
+class HillfortMapsPresenter(view: BaseView): BasePresenter(view) {
 
     val user = FirebaseAuth.getInstance().currentUser
     private var hillfort = HillfortModel()
@@ -48,7 +46,6 @@ class HillfortMapsPresenter(view: BaseView): BasePresenter(view), AnkoLogger {
     }
 
     fun doMarkerClick(marker: Marker) {
-        info("@@@ HELLO")
         val hillfort = marker.tag as HillfortModel
         view?.currentTitle!!.text = hillfort.title
         view?.currentDescription!!.text = hillfort.description
